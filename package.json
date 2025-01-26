@@ -1,16 +1,29 @@
 {
   "name": "zod-utils",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "A utility library for Zod",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tupe12334/zod-utils.git"
+  },
   "scripts": {
     "build": "tsc",
     "prebuild": "rimraf dist",
-    "test": "vitest"
+    "test": "vitest",
+    "prepare": "npm run build"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "zod",
+    "utilities",
+    "validation"
+  ],
+  "author": "Ofek Gabay <ofek.gabay.he@gmail.com>",
+  "license": "MIT",
   "peerDependencies": {
     "zod": "*"
   },

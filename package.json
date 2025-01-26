@@ -9,7 +9,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/tupe12334/zod-utils.git"
+    "url": "git+https://github.com/tupe12334/zod-utils.git"
   },
   "scripts": {
     "build": "tsc",
@@ -24,6 +24,10 @@
   ],
   "author": "Ofek Gabay <ofek.gabay.he@gmail.com>",
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tupe12334/zod-utils/issues"
+  },
+  "homepage": "https://github.com/tupe12334/zod-utils#readme",
   "peerDependencies": {
     "zod": "*"
   },

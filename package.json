@@ -1,5 +1,5 @@
 {
-  "name": "zod-utils",
+  "name": "@tupe12334/zod-utils",
   "version": "1.0.0",
   "description": "A utility library for Zod",
   "main": "dist/index.js",

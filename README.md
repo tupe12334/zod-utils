@@ -5,13 +5,13 @@ A utility library for Zod.
 ## Installation
 
 ```bash
-npm install zod-utils
+npm install @tupe12334/zod-utils
 ```
 
 ## Usage
 
 ```javascript
-const zodUtils = require("zod-utils");
+const zodUtils = require("@tupe12334/zod-utils");
 // ...usage examples...
 ```
 

@@ -14,7 +14,7 @@
   "scripts": {
     "build": "tsc",
     "prebuild": "rimraf dist",
-    "test": "vitest",
+    "test": "vitest --watch=false",
     "prepare": "pnpm run build"
   },
   "keywords": [

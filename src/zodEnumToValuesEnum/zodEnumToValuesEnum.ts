@@ -19,7 +19,7 @@ export function zodEnumToValuesEnum<T extends [string, ...string[]]>(
   zodEnum: ZodEnum<T>
 ): { [K in T[number]]: K } {
   const valuesEnum = {} as { [K in T[number]]: K };
-  for (const value of zodEnum.options) {
+  for (const value of zodEnum.options as T[number][]) {
     valuesEnum[value] = value;
   }
   return valuesEnum;

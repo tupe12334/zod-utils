@@ -13,7 +13,7 @@
   "peerDependencies": {
     "zod": "*"
   },
-  "dependencies": {
+  "devDependencies": {
     "rimraf": "^6.0.1"
   }
 }

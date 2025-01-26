@@ -15,7 +15,7 @@
     "build": "tsc",
     "prebuild": "rimraf dist",
     "test": "vitest",
-    "prepare": "npm run build"
+    "prepare": "pnpm run build"
   },
   "keywords": [
     "zod",

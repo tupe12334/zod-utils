@@ -11,6 +11,9 @@
     "type": "git",
     "url": "git+https://github.com/tupe12334/zod-utils.git"
   },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
   "scripts": {
     "build": "tsc",
     "prebuild": "rimraf dist",

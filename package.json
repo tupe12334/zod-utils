@@ -1,0 +1,19 @@
+{
+  "name": "zod-utils",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "prebuild": "rimraf dist"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "peerDependencies": {
+    "zod": "*"
+  },
+  "dependencies": {
+    "rimraf": "^6.0.1"
+  }
+}

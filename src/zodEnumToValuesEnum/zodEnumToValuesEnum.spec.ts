@@ -19,4 +19,18 @@ describe("zodEnumToValuesEnum", () => {
     //@ts-expect-error
     expect(MyEnumValues.d).toBeUndefined();
   });
+
+  it("should return an object with the correct types", () => {
+    const MyEnum = z.enum(["a", "b", "c"]);
+    const MyEnumValues = zodEnumToValuesEnum(MyEnum);
+
+    type ExpectedType = {
+      a: "a";
+      b: "b";
+      c: "c";
+    };
+
+    const assertType: ExpectedType = MyEnumValues;
+    expect(assertType).toBe(MyEnumValues);
+  });
 });

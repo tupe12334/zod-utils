@@ -12,11 +12,11 @@ describe("zodEnumToValuesEnum", () => {
     expect(MyEnumValues.c).toBe("c");
   });
 
-  it("should throw an error for accessing a non-existent property", () => {
+  it("should give an undefined value for non existing enum values", () => {
     const MyEnum = z.enum(["a", "b", "c"]);
     const MyEnumValues = zodEnumToValuesEnum(MyEnum);
 
     //@ts-expect-error
-    expect(() => MyEnumValues.d).toBeUndefined();
+    expect(MyEnumValues.d).toBeUndefined();
   });
 });

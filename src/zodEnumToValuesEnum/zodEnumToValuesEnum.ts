@@ -14,13 +14,13 @@ import { ZodEnum } from "zod";
  * console.log(MyEnumValues.c); // "c"
  * console.log(MyEnumValues.d); // Error: Property 'd' does not exist on type '{ a: "a"; b: "b"; c: "c"; }'.
  */
-
 export function zodEnumToValuesEnum<T extends [string, ...string[]]>(
   zodEnum: ZodEnum<T>
 ): { [K in T[number]]: K } {
-  const valuesEnum = {} as { [K in T[number]]: K };
-  for (const value of zodEnum.options as T[number][]) {
-    valuesEnum[value] = value;
-  }
-  return valuesEnum;
+  const entries = zodEnum.options.map((value) => [value, value] as const);
+  // The runtime object is a faithful <value, value> map, but TypeScript cannot
+  // infer the precise mapped return type from `Object.fromEntries`, so a single
+  // assertion to the declared return type is unavoidable here.
+  // eslint-disable-next-line no-restricted-syntax
+  return Object.fromEntries(entries) as { [K in T[number]]: K };
 }

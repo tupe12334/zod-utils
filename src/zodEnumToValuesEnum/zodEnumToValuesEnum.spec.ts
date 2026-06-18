@@ -16,7 +16,7 @@ describe("zodEnumToValuesEnum", () => {
     const MyEnum = z.enum(["a", "b", "c"]);
     const MyEnumValues = zodEnumToValuesEnum(MyEnum);
 
-    //@ts-expect-error
+    // @ts-expect-error "d" is not one of the enum values, so it is not a key
     expect(MyEnumValues.d).toBeUndefined();
   });
 
@@ -24,11 +24,11 @@ describe("zodEnumToValuesEnum", () => {
     const MyEnum = z.enum(["a", "b", "c"]);
     const MyEnumValues = zodEnumToValuesEnum(MyEnum);
 
-    type ExpectedType = {
+    interface ExpectedType {
       a: "a";
       b: "b";
       c: "c";
-    };
+    }
 
     const assertType: ExpectedType = MyEnumValues;
     expect(assertType).toBe(MyEnumValues);

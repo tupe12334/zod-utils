@@ -34,6 +34,17 @@ export default [
         'error',
         { prefer: 'type-imports', fixStyle: 'separate-type-imports' },
       ],
+      // Forbid inline `import { type X }` mixed-qualifier syntax in favour of
+      // a separate top-level `import type` statement. Paired with
+      // `consistent-type-imports` above (fixStyle: separate-type-imports), this
+      // guarantees every type-only import is a statement TypeScript fully
+      // erases at build time, so a type reference can never leave behind a
+      // runtime `import` with side effects in the emitted JS — exactly the
+      // property this library depends on to stay dependency-light. The rule is
+      // not part of typescript-eslint's `strictTypeChecked` preset (which
+      // eslint-config-agent extends), so it must be enabled per-repo. There
+      // are no violations in `src` today, so it carries zero current cost.
+      '@typescript-eslint/no-import-type-side-effects': 'error',
       // Require the property style (`foo: () => void`) over the method
       // shorthand (`foo(): void`) for every method signature in interfaces
       // and object types. The two are NOT equivalent under the compiler:

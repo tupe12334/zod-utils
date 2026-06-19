@@ -1,4 +1,4 @@
-import { ZodEnum } from "zod";
+import type { ZodEnum } from "zod";
 
 /**
  * Type-safe way to access the values of a ZodEnum

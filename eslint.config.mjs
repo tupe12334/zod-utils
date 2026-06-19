@@ -17,6 +17,19 @@ export default [
       // the rule carries zero current cost and simply guards against the bug
       // as the library grows.
       '@typescript-eslint/no-shadow': 'error',
+      // Forbid the non-null assertion operator (`value!`). A `!` silently tells
+      // the compiler "trust me, this is never null/undefined" and then erases
+      // at build time, so a wrong assumption surfaces as a runtime
+      // "cannot read properties of undefined" crash inside the *consumer's*
+      // app — exactly the failure mode a type-safe Zod utility exists to
+      // prevent. Forcing an explicit narrowing instead (a guard, `?? fallback`,
+      // or `if (x == null) throw`) keeps the library's null-safety guarantees
+      // honest and the bug at the boundary. This rule is not part of
+      // typescript-eslint's `strictTypeChecked` preset (which
+      // eslint-config-agent extends), so it must be enabled per-repo. There are
+      // no violations in `src` today, so it carries zero current cost and
+      // simply guards against the bug as the library grows.
+      '@typescript-eslint/no-non-null-assertion': 'error',
       '@typescript-eslint/consistent-type-imports': [
         'error',
         { prefer: 'type-imports', fixStyle: 'separate-type-imports' },

@@ -3,7 +3,13 @@ import config from 'eslint-config-agent'
 export default [
   ...config,
   {
+    // Enforce `import type` for type-only imports so they are erased at build
+    // time and can never pull a value/runtime dependency into emitted JS.
     rules: {
+      '@typescript-eslint/consistent-type-imports': [
+        'error',
+        { prefer: 'type-imports', fixStyle: 'separate-type-imports' },
+      ],
       // Require explicit return types on functions to keep the public API's
       // types stable and intentional. `allowExpressions` keeps inline
       // callbacks (e.g. in tests) unannotated to avoid noise.

@@ -11,6 +11,10 @@ export default [
         'error',
         { allowExpressions: true },
       ],
+      // Treat function parameters as immutable. Reassigning a parameter, or
+      // mutating its properties (`props: true`), hides data flow and is a
+      // common source of subtle bugs; build a new value instead.
+      'no-param-reassign': ['error', { props: true }],
     },
   },
   {

@@ -6,6 +6,17 @@ export default [
     // Enforce `import type` for type-only imports so they are erased at build
     // time and can never pull a value/runtime dependency into emitted JS.
     rules: {
+      // Forbid a variable declaration from shadowing one in an outer scope.
+      // A shadowed name (a nested `value`, `index` or `result` that hides the
+      // outer one) reads as if it refers to the outer binding while it does
+      // not — a classic source of "I updated the wrong variable" bugs and of
+      // confusing diffs during refactors. The base `no-shadow` rule is left
+      // off (it false-positives on TS type/value merging and enum members);
+      // the typescript-eslint version understands those cases, so it is the
+      // recommended replacement. There are no violations in `src` today, so
+      // the rule carries zero current cost and simply guards against the bug
+      // as the library grows.
+      '@typescript-eslint/no-shadow': 'error',
       '@typescript-eslint/consistent-type-imports': [
         'error',
         { prefer: 'type-imports', fixStyle: 'separate-type-imports' },

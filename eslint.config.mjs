@@ -111,6 +111,19 @@ export default [
         'error',
         { ignoreStringArrays: true },
       ],
+      // Require any function that returns a `Promise` to be declared `async`.
+      // A non-`async` function that returns a promise has two different error
+      // paths: a synchronous `throw` surfaces as a thrown exception at the call
+      // site, while a rejected promise surfaces in `.catch`/`await` — so callers
+      // cannot rely on a single handling strategy. Forcing `async` unifies the
+      // contract: the function always returns a promise and always rejects
+      // (never throws synchronously), letting every caller use one `try/await`
+      // or `.catch` path. This rule is not part of typescript-eslint's
+      // `strictTypeChecked` preset (which eslint-config-agent extends), so it
+      // must be enabled per-repo. There are no violations in `src` today, so it
+      // carries zero current cost and simply guards against the bug as the
+      // library grows.
+      '@typescript-eslint/promise-function-async': 'error',
     },
   },
   {

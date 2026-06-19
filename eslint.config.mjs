@@ -38,6 +38,17 @@ export default [
       // `src` today, so this rule has zero current cost and simply guards
       // against future regressions as the library grows.
       '@typescript-eslint/strict-boolean-expressions': 'error',
+      // Forbid `console.*` calls in library source. This package ships to
+      // consumers via npm, so a stray `console.log`/`console.error` left in
+      // from debugging would pollute the host application's output, leak
+      // internal state and can't be silenced by the consumer. Keeping the
+      // shipped code free of console I/O is part of being a well-behaved
+      // dependency. The rule is not part of typescript-eslint's
+      // `strictTypeChecked` preset (which eslint-config-agent extends), so it
+      // must be enabled per-repo. There are no violations in `src` today, so
+      // this has zero current cost and simply guards against future
+      // regressions as the library grows.
+      'no-console': 'error',
       // Require a compare function whenever a non-string array is sorted.
       // `Array.prototype.sort` coerces elements to strings by default, so
       // `[1, 10, 2].sort()` yields `[1, 10, 2]` — the notorious lexicographic

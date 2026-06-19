@@ -38,6 +38,21 @@ export default [
       // `src` today, so this rule has zero current cost and simply guards
       // against future regressions as the library grows.
       '@typescript-eslint/strict-boolean-expressions': 'error',
+      // Require a compare function whenever a non-string array is sorted.
+      // `Array.prototype.sort` coerces elements to strings by default, so
+      // `[1, 10, 2].sort()` yields `[1, 10, 2]` — the notorious lexicographic
+      // sort bug. Forcing an explicit comparator (`(a, b) => a - b`) makes the
+      // intended ordering unambiguous and eliminates a silent correctness bug.
+      // `ignoreStringArrays` keeps the lint quiet for string arrays, where the
+      // default lexicographic order is genuinely what callers want. This rule
+      // is not part of typescript-eslint's `strictTypeChecked` preset (which
+      // eslint-config-agent extends), so it must be enabled per-repo. There
+      // are no violations in `src` today, so it carries zero current cost and
+      // simply guards against the bug as the library grows.
+      '@typescript-eslint/require-array-sort-compare': [
+        'error',
+        { ignoreStringArrays: true },
+      ],
     },
   },
   {

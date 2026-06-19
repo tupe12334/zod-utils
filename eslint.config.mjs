@@ -17,6 +17,16 @@ export default [
         'error',
         { allowExpressions: true },
       ],
+      // Require `switch` statements over a union/enum type to handle every
+      // member (or carry an explicit `default`). For a Zod utility library
+      // that maps over enum/union values, this turns "forgot a case" into a
+      // lint error and forces existing switches to be revisited whenever a
+      // new enum member is added. `requireDefaultForNonUnion` also flags
+      // non-union switches that silently lack a `default` branch.
+      '@typescript-eslint/switch-exhaustiveness-check': [
+        'error',
+        { requireDefaultForNonUnion: true },
+      ],
       // Forbid relying on the implicit truthiness of nullable strings, numbers
       // and objects in boolean positions (`if (str)`, `a && b`, `!obj`,
       // ternaries). Implicit coercion makes an empty string, `0`, `NaN` or

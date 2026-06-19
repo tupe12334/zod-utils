@@ -10,6 +10,18 @@ export default [
         'error',
         { prefer: 'type-imports', fixStyle: 'separate-type-imports' },
       ],
+      // Require the property style (`foo: () => void`) over the method
+      // shorthand (`foo(): void`) for every method signature in interfaces
+      // and object types. The two are NOT equivalent under the compiler:
+      // method-shorthand signatures are exempted from `strictFunctionTypes`
+      // and checked *bivariantly*, a deliberate TypeScript unsoundness that
+      // lets an unsafe callback slip through type-checking, whereas the
+      // property style is checked *contravariantly* (sound). For a type
+      // utility library whose whole value is precise, trustworthy types,
+      // forcing the sound form removes a silent hole in the public API's
+      // guarantees. There are no method signatures in `src` today, so this
+      // rule has zero current cost and simply keeps future declarations sound.
+      '@typescript-eslint/method-signature-style': ['error', 'property'],
       // Require explicit return types on functions to keep the public API's
       // types stable and intentional. `allowExpressions` keeps inline
       // callbacks (e.g. in tests) unannotated to avoid noise.

@@ -87,6 +87,17 @@ export default [
         'error',
         { ignoreStringArrays: true },
       ],
+      // Require template literals (`` `Hello, ${name}` ``) instead of string
+      // concatenation with `+` (`'Hello, ' + name`). The `+` operator is
+      // overloaded for both numeric addition and string concatenation, so an
+      // expression like `'' + a + b` silently changes meaning with the operand
+      // types — a subtle coercion bug. Template literals always stringify and
+      // read top-to-bottom without juggling quotes and `+`, keeping one clear
+      // idiom for building strings. The rule is auto-fixable, so it stays
+      // low-risk as the library grows. There are no violations in `src` today,
+      // so it carries zero current cost and simply guards the pattern going
+      // forward.
+      'prefer-template': 'error',
     },
   },
   {

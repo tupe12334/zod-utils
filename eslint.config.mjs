@@ -11,6 +11,10 @@ export default [
         'error',
         { allowExpressions: true },
       ],
+      // Require `===`/`!==` over `==`/`!=` to avoid surprising type-coercion
+      // bugs (e.g. `0 == ''`, `null == undefined`). `null` is exempt so the
+      // idiomatic `x == null` null-or-undefined check stays allowed.
+      eqeqeq: ['error', 'always', { null: 'ignore' }],
     },
   },
   {

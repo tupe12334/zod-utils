@@ -134,6 +134,21 @@ export default [
         'error',
         { ignoreStringArrays: true },
       ],
+      // Forbid conditions (and `&&`/`||`/`?.`/ternaries) whose outcome is
+      // already known from the types — e.g. testing a value the type system
+      // proves is always truthy, or guarding a property the type proves is
+      // never `null`/`undefined`. Such a check is either dead code or, more
+      // often, a sign the author misread the type (the guard they think is
+      // protecting them does nothing). For a type-utility library whose whole
+      // value is that its types are precise and trustworthy, an unnecessary
+      // condition is exactly the kind of mismatch between code and types that
+      // must not ship. typescript-eslint deliberately leaves this rule out of
+      // its `strictTypeChecked` preset (which eslint-config-agent extends)
+      // because it is noisy in loosely-typed code, so it must be enabled
+      // per-repo. There are no violations in `src` today, so the rule carries
+      // zero current cost and simply guards against the bug as the library
+      // grows.
+      '@typescript-eslint/no-unnecessary-condition': 'error',
       // Require template literals (`` `Hello, ${name}` ``) instead of string
       // concatenation with `+` (`'Hello, ' + name`). The `+` operator is
       // overloaded for both numeric addition and string concatenation, so an

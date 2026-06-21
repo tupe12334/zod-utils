@@ -81,6 +81,10 @@ export default [
         'error',
         { allowExpressions: true },
       ],
+      // Treat function parameters as immutable. Reassigning a parameter, or
+      // mutating its properties (`props: true`), hides data flow and is a
+      // common source of subtle bugs; build a new value instead.
+      'no-param-reassign': ['error', { props: true }],
       // Require `===`/`!==` over `==`/`!=` to avoid surprising type-coercion
       // bugs (e.g. `0 == ''`, `null == undefined`). `null` is exempt so the
       // idiomatic `x == null` null-or-undefined check stays allowed.

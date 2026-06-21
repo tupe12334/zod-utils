@@ -6,6 +6,17 @@ export default [
     // Enforce `import type` for type-only imports so they are erased at build
     // time and can never pull a value/runtime dependency into emitted JS.
     rules: {
+      // Forbid the loose equality operators `==` / `!=` and require the strict
+      // `===` / `!==` instead. Loose equality performs implicit type coercion
+      // (`0 == ''`, `'' == false`, `[] == false` all evaluate `true`), a
+      // notorious source of subtle bugs — exactly the surprises a type-safe
+      // Zod utility exists to prevent. The `null: 'ignore'` exemption keeps the
+      // idiomatic `x == null` nullish check (matching both `null` and
+      // `undefined`) available, the one place loose equality is genuinely
+      // useful. There are no violations in `src` today, so the rule carries
+      // zero current cost and simply guards against the bug as the library
+      // grows.
+      eqeqeq: ['error', 'always', { null: 'ignore' }],
       // Require explicit return and argument types on exported (module-boundary)
       // functions. As a published library, the inferred types of our public API
       // are part of our contract; making them explicit keeps that contract

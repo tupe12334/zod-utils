@@ -6,6 +6,12 @@ export default [
     // Enforce `import type` for type-only imports so they are erased at build
     // time and can never pull a value/runtime dependency into emitted JS.
     rules: {
+      // Require explicit return and argument types on exported (module-boundary)
+      // functions. As a published library, the inferred types of our public API
+      // are part of our contract; making them explicit keeps that contract
+      // stable and intentional instead of silently drifting with implementation
+      // changes.
+      '@typescript-eslint/explicit-module-boundary-types': 'error',
       // Forbid a variable declaration from shadowing one in an outer scope.
       // A shadowed name (a nested `value`, `index` or `result` that hides the
       // outer one) reads as if it refers to the outer binding while it does
@@ -68,6 +74,10 @@ export default [
       // mutating its properties (`props: true`), hides data flow and is a
       // common source of subtle bugs; build a new value instead.
       'no-param-reassign': ['error', { props: true }],
+      // Require `===`/`!==` over `==`/`!=` to avoid surprising type-coercion
+      // bugs (e.g. `0 == ''`, `null == undefined`). `null` is exempt so the
+      // idiomatic `x == null` null-or-undefined check stays allowed.
+      eqeqeq: ['error', 'always', { null: 'ignore' }],
       // Require `switch` statements over a union/enum type to handle every
       // member (or carry an explicit `default`). For a Zod utility library
       // that maps over enum/union values, this turns "forgot a case" into a
@@ -89,6 +99,19 @@ export default [
       // `src` today, so this rule has zero current cost and simply guards
       // against future regressions as the library grows.
       '@typescript-eslint/strict-boolean-expressions': 'error',
+      // Enforce that re-exported types use a type-only export
+      // (`export type { T }`). For a published type-utility library this keeps
+      // type names out of the emitted runtime graph: a plain `export { T }` of a
+      // type-only symbol can pull a module into the JS bundle (or trip
+      // `isolatedModules` / bundlers) when it should erase at compile time.
+      // Pairs with `consistent-type-imports` for symmetric, intentional type
+      // boundaries. typescript-eslint leaves this off its presets, so it must be
+      // enabled per-repo. There are no violations in `src` today, so the rule
+      // has zero current cost and guards future exports.
+      '@typescript-eslint/consistent-type-exports': [
+        'error',
+        { fixMixedExportsWithInlineTypeSpecifier: true },
+      ],
       // Forbid `console.*` calls in library source. This package ships to
       // consumers via npm, so a stray `console.log`/`console.error` left in
       // from debugging would pollute the host application's output, leak
@@ -115,6 +138,21 @@ export default [
         'error',
         { ignoreStringArrays: true },
       ],
+      // Forbid conditions (and `&&`/`||`/`?.`/ternaries) whose outcome is
+      // already known from the types — e.g. testing a value the type system
+      // proves is always truthy, or guarding a property the type proves is
+      // never `null`/`undefined`. Such a check is either dead code or, more
+      // often, a sign the author misread the type (the guard they think is
+      // protecting them does nothing). For a type-utility library whose whole
+      // value is that its types are precise and trustworthy, an unnecessary
+      // condition is exactly the kind of mismatch between code and types that
+      // must not ship. typescript-eslint deliberately leaves this rule out of
+      // its `strictTypeChecked` preset (which eslint-config-agent extends)
+      // because it is noisy in loosely-typed code, so it must be enabled
+      // per-repo. There are no violations in `src` today, so the rule carries
+      // zero current cost and simply guards against the bug as the library
+      // grows.
+      '@typescript-eslint/no-unnecessary-condition': 'error',
       // Require template literals (`` `Hello, ${name}` ``) instead of string
       // concatenation with `+` (`'Hello, ' + name`). The `+` operator is
       // overloaded for both numeric addition and string concatenation, so an

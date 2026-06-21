@@ -126,6 +126,17 @@ export default [
       // zero current cost and simply guards against the bug as the library
       // grows.
       '@typescript-eslint/no-unnecessary-condition': 'error',
+      // Require template literals (`` `Hello, ${name}` ``) instead of string
+      // concatenation with `+` (`'Hello, ' + name`). The `+` operator is
+      // overloaded for both numeric addition and string concatenation, so an
+      // expression like `'' + a + b` silently changes meaning with the operand
+      // types — a subtle coercion bug. Template literals always stringify and
+      // read top-to-bottom without juggling quotes and `+`, keeping one clear
+      // idiom for building strings. The rule is auto-fixable, so it stays
+      // low-risk as the library grows. There are no violations in `src` today,
+      // so it carries zero current cost and simply guards the pattern going
+      // forward.
+      'prefer-template': 'error',
       // Require any function that returns a `Promise` to be declared `async`.
       // A non-`async` function that returns a promise has two different error
       // paths: a synchronous `throw` surfaces as a thrown exception at the call

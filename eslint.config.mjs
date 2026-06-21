@@ -70,6 +70,10 @@ export default [
         'error',
         { allowExpressions: true },
       ],
+      // Require `===`/`!==` over `==`/`!=` to avoid surprising type-coercion
+      // bugs (e.g. `0 == ''`, `null == undefined`). `null` is exempt so the
+      // idiomatic `x == null` null-or-undefined check stays allowed.
+      eqeqeq: ['error', 'always', { null: 'ignore' }],
       // Require `switch` statements over a union/enum type to handle every
       // member (or carry an explicit `default`). For a Zod utility library
       // that maps over enum/union values, this turns "forgot a case" into a

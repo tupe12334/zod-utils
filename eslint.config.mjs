@@ -95,6 +95,19 @@ export default [
       // `src` today, so this rule has zero current cost and simply guards
       // against future regressions as the library grows.
       '@typescript-eslint/strict-boolean-expressions': 'error',
+      // Enforce that re-exported types use a type-only export
+      // (`export type { T }`). For a published type-utility library this keeps
+      // type names out of the emitted runtime graph: a plain `export { T }` of a
+      // type-only symbol can pull a module into the JS bundle (or trip
+      // `isolatedModules` / bundlers) when it should erase at compile time.
+      // Pairs with `consistent-type-imports` for symmetric, intentional type
+      // boundaries. typescript-eslint leaves this off its presets, so it must be
+      // enabled per-repo. There are no violations in `src` today, so the rule
+      // has zero current cost and guards future exports.
+      '@typescript-eslint/consistent-type-exports': [
+        'error',
+        { fixMixedExportsWithInlineTypeSpecifier: true },
+      ],
       // Forbid `console.*` calls in library source. This package ships to
       // consumers via npm, so a stray `console.log`/`console.error` left in
       // from debugging would pollute the host application's output, leak

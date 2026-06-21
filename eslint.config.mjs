@@ -6,6 +6,12 @@ export default [
     // Enforce `import type` for type-only imports so they are erased at build
     // time and can never pull a value/runtime dependency into emitted JS.
     rules: {
+      // Require explicit return and argument types on exported (module-boundary)
+      // functions. As a published library, the inferred types of our public API
+      // are part of our contract; making them explicit keeps that contract
+      // stable and intentional instead of silently drifting with implementation
+      // changes.
+      '@typescript-eslint/explicit-module-boundary-types': 'error',
       // Forbid a variable declaration from shadowing one in an outer scope.
       // A shadowed name (a nested `value`, `index` or `result` that hides the
       // outer one) reads as if it refers to the outer binding while it does
